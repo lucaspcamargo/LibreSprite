@@ -72,7 +72,8 @@ namespace {
             color = color_utils::color_for_ui(app::Color::fromGray(255 * x / w));
             break;
         }
-        g->drawVLine(color, rc.x+x, rc.y, rc.h);
+
+        g->drawVLine(color_utils::apply_limitations(color), rc.x+x, rc.y, rc.h);
       }
     }
 

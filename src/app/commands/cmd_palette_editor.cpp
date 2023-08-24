@@ -423,10 +423,11 @@ void PaletteEntryEditor::onFgBgColorChange(const app::Color& _color)
 
 void PaletteEntryEditor::onColorSlidersChange(ColorSlidersChangeEvent& ev)
 {
-  setColor(ev.color());
+  auto color = color_utils::apply_limitations(ev.color());
+  setColor(color);
 
   if (ev.mode() == ColorSliders::Absolute)
-    setAbsolutePaletteEntryChannel(ev.channel(), ev.color());
+    setAbsolutePaletteEntryChannel(ev.channel(), color);
   else
     setRelativePaletteEntryChannel(ev.channel(), ev.delta());
 
@@ -440,8 +441,9 @@ void PaletteEntryEditor::onColorHexEntryChange(const app::Color& color)
   // is writting in the text field.
   m_disableHexUpdate = true;
 
-  setColor(color);
-  setPaletteEntry(color);
+  app::Color adj_color = color_utils::apply_limitations(color);
+  setColor(adj_color);
+  setPaletteEntry(adj_color);
   updateCurrentSpritePalette("Color Change");
   updateColorBar();
 

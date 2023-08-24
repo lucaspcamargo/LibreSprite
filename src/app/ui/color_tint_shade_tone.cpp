@@ -64,10 +64,10 @@ app::Color ColorTintShadeTone::getColorByPosition(const gfx::Point& pos)
     val = (100.0 - 100.0 * v / vmax);
   }
 
-  return app::Color::fromHsv(
+  return color_utils::apply_limitations(app::Color::fromHsv(
     MID(0.0, hue, 360.0),
     MID(0.0, sat, 100.0),
-    MID(0.0, val, 100.0));
+    MID(0.0, val, 100.0)));
 }
 
 void ColorTintShadeTone::onPaint(ui::PaintEvent& ev)
@@ -99,7 +99,7 @@ void ColorTintShadeTone::onPaint(ui::PaintEvent& ev)
           hue,
           MID(0.0, sat, 100.0),
           MID(0.0, val, 100.0)));
-
+      color = color_utils::apply_limitations(color);
       g->putPixel(color, rc.x+x, rc.y+y);
     }
   }
@@ -110,6 +110,7 @@ void ColorTintShadeTone::onPaint(ui::PaintEvent& ev)
         gfx::Color color = color_utils::color_for_ui(
           app::Color::fromHsv(
             (360.0 * x / rc.w), 100.0, 100.0));
+        color = color_utils::apply_limitations(color);
 
         g->putPixel(color, rc.x+x, rc.y+y);
       }
@@ -160,6 +161,7 @@ bool ColorTintShadeTone::onProcessMessage(ui::Message* msg)
           m_capturedInHue = inHueBarArea(mouseMsg->position());
 
       app::Color color = getColorByPosition(mouseMsg->position());
+      color = color_utils::apply_limitations(color);
       if (color != app::Color::fromMask()) {
         StatusBar::instance()->showColor(0, "", color);
         if (hasCapture())

@@ -111,10 +111,10 @@ app::Color ColorWheel::getColorInClientPos(const gfx::Point& pos)
       sat = int(100.0 * d / m_wheelRadius);
     }
 
-    return app::Color::fromHsv(
+    return color_utils::apply_limitations(app::Color::fromHsv(
       MID(0, hue, 360),
       MID(0, sat, 100),
-      100);
+      100));
   }
 
   // Pick harmonies
@@ -134,6 +134,8 @@ app::Color ColorWheel::getColorInClientPos(const gfx::Point& pos)
         color = app::Color::fromHsv(convertHueAngle(int(color.getHue()), 1),
                                     color.getSaturation(),
                                     color.getValue());
+
+        color = color_utils::apply_limitations(color);
         return color;
       }
     }
@@ -178,9 +180,11 @@ app::Color ColorWheel::getColorInHarmony(int j) const
   j = MID(0, j, harmonies[i].n-1);
   double hue = convertHueAngle(int(m_color.getHue()), -1) + harmonies[i].hues[j];
   double sat = m_color.getSaturation() * harmonies[i].sats[j] / 100.0;
-  return app::Color::fromHsv(std::fmod(hue, 360),
+  app::Color color = app::Color::fromHsv(std::fmod(hue, 360),
                              MID(0.0, sat, 100.0),
                              m_color.getValue());
+  color = color_utils::apply_limitations(color);
+  return color;
 }
 
 void ColorWheel::onResize(ui::ResizeEvent& ev)

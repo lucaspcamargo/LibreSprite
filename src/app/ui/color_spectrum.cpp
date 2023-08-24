@@ -59,10 +59,10 @@ app::Color ColorSpectrum::getColorByPosition(const gfx::Point& pos)
   double sat = (v < vmid ? 100.0 * v / vmid : 100.0);
   double val = (v < vmid ? 100.0 : 100.0-(100.0 * (v-vmid) / vmid));
 
-  return app::Color::fromHsv(
+  return color_utils::apply_limitations (app::Color::fromHsv(
     MID(0.0, hue, 360.0),
     MID(0.0, sat, 100.0),
-    MID(0.0, val, 100.0));
+    MID(0.0, val, 100.0)));
 }
 
 void ColorSpectrum::onPaint(ui::PaintEvent& ev)
@@ -99,13 +99,13 @@ void ColorSpectrum::onPaint(ui::PaintEvent& ev)
       double sat = (v < vmid ? 100.0 * v / vmid : 100.0);
       double val = (v < vmid ? 100.0 : 100.0-(100.0 * (v-vmid) / vmid));
 
-      gfx::Color color = color_utils::color_for_ui(
+      gfx::Color color = color_utils::apply_limitations(color_utils::color_for_ui(
         app::Color::fromHsv(
           MID(0.0, hue, 360.0),
           MID(0.0, sat, 100.0),
-          MID(0.0, val, 100.0)));
+          MID(0.0, val, 100.0))));
 
-      g->putPixel(color, rc.x+x, rc.y+y);
+      //g->putPixel(color, rc.x+x, rc.y+y);
     }
   }
 

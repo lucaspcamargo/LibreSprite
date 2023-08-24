@@ -18,6 +18,10 @@
 #include "doc/layer.h"
 #include "doc/palette.h"
 #include "doc/sprite.h"
+#include "color_utils.h"
+
+#include <math.h>
+
 
 namespace app {
 
@@ -163,4 +167,21 @@ doc::color_t color_utils::color_for_target(const app::Color& color, const ColorT
   return c;
 }
 
+#define approx(C) (static_cast<uint8_t>(roundf((C)/255.0*7.0)/7.0*255.0))
+
+app::Color color_utils::apply_limitations(const app::Color &color)
+{
+  return app::Color::fromRgb(approx(color.getRed()),
+                              approx(color.getGreen()),
+                              approx(color.getBlue()),
+                              approx(color.getAlpha()));
+}
+
+gfx::Color color_utils::apply_limitations(const gfx::Color &color)
+{
+  return gfx::rgba( approx(gfx::getr(color)),
+                    approx(gfx::getg(color)),
+                    approx(gfx::getb(color)),
+                    approx(gfx::geta(color)));
+}
 } // namespace app
