@@ -1,3 +1,11 @@
+# **This is a HACKED, MegaDrive colors only version of LibreSprite**
+
+Check out [upstream](https://github.com/LibreSprite/LibreSprite) for the actual version if this not what you want.
+
+So, original README follows:
+
+--------------------------------------------------------------------------------------
+
 # LibreSprite [![Liberapay](https://i.imgur.com/UOLKpPA.png "Support our work")](https://liberapay.com/LibreSprite/) [![CMake](https://github.com/LibreSprite/LibreSprite/actions/workflows/cmake.yml/badge.svg)](https://github.com/LibreSprite/LibreSprite/actions/workflows/cmake.yml)
 
 ## Introduction
